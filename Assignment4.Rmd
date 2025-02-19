@@ -1,0 +1,71 @@
+---
+title: "Assignment 4"
+author: "Olivia Bible"
+date: "2025-02-19"
+output: 
+  html_document:
+    css: styles.css
+---
+
+#### <br><br>Loading/installing necessary packages:
+
+```{r, error=FALSE, warning=FALSE, message=FALSE}
+options(repos = c(CRAN = "https://cran.rstudio.com/"))
+library(dplyr)
+library(ggplot2)
+library(ggpmisc)
+```
+
+
+#### <br><br>Loading dataset & indexing to only display length & weight data:
+
+```{r}
+troutdata <- read.csv("siscowet.csv")
+troutdata %>%
+  select(7,8) -> lenwgt
+```
+
+
+
+#### <br><br>Linear regression:
+
+```{r}
+lw <- lm(lenwgt$len ~ lenwgt$wgt)
+summary(lw)
+```
+
+
+
+#### <br><br>Creating exploratory figure:
+
+```{r}
+explor <- ggplot(lenwgt, mapping=aes(x=len, y=wgt)) + geom_point() +
+labs(x="Length (mm)", y="Weight (g)", title="Siscowet Lake Trout Length vs. Weight")+
+theme(plot.title = element_text(hjust = 0.5, face="bold"))
+```
+
+##### Showing figure:
+
+```{r, warning=FALSE}
+explor
+```
+
+
+
+
+#### <br><br>Creating expository figure:
+
+```{r}
+exposit <- ggplot(lenwgt, mapping=aes(x=len, y=wgt)) + geom_point(color="purple") +
+geom_smooth(color="aquamarine")+ ylim(0,5000) +
+labs(x="Length (mm)", y="Weight (g)", title="Effect of Siscowet Lake Trout Length on Weight")+
+theme(plot.title = element_text(hjust = 0.5, face="bold"))+
+stat_poly_eq()
+```
+
+##### Showing figure:
+
+```{r, warning=FALSE, message=FALSE}
+exposit
+```
+
